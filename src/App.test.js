@@ -1,22 +1,30 @@
 import React from 'react'
-import {ReactDOM,unmountComponentAtNode} from 'react-dom'
+import { render } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import App from './App'
 
-let container = null;
-beforeEach(() => {
-  // setup a DOM element as a render target
-  container = document.createElement("div");
-  document.body.appendChild(container);
-});
+jest.mock('./BooksAPI', () => ({
+  getAll: jest.fn(() => Promise.resolve([])),
+  update: jest.fn(() => Promise.resolve({})),
+  search: jest.fn(() => Promise.resolve([])),
+}))
 
-it('renders without crashing', () => {
-  const div = document.createElement('div')
-  //ReactDOM.render(<App />, div)
+describe('App', () => {
+  it('renders without crashing', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    )
+    expect(container).toBeTruthy()
+  })
+
+  it('renders the MyReads title', () => {
+    const { getByText } = render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    )
+    expect(getByText('MyReads')).toBeTruthy()
+  })
 })
-
-afterEach(() => {
-  // cleanup on exiting
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
