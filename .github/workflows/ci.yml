@@ -32,7 +32,7 @@ jobs:
         run: npm install
 
       - name: Lint
-        run: npx eslint src/ --ext .js,.jsx
+        run: ./node_modules/.bin/eslint src/ --ext .js,.jsx
 
       - name: Test
         run: npm test
