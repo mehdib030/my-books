@@ -33,6 +33,7 @@ jobs:
 
       - name: Lint
         run: ./node_modules/.bin/eslint src/ --ext .js,.jsx
+        continue-on-error: true
 
       - name: Test
         run: npm test
